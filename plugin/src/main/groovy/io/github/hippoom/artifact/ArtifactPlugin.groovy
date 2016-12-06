@@ -6,9 +6,16 @@ import org.gradle.api.Project
 class ArtifactPlugin implements Plugin<Project> {
 
     void apply(Project project) {
-        project.task('hello') {
+        project.task('writeArtifactBuildNumber') {
             doLast {
-                println "Hello from the GreetingPlugin"
+                def artifactsDir = project.file("${project.buildDir}/artifacts")
+                if (artifactsDir.exists()) {
+                    //skip
+                } else {
+                    artifactsDir.mkdirs()
+                }
+                def artifactBuildNumberFile = project.file("${project.buildDir}/artifacts/build-number")
+                artifactBuildNumberFile.text = project.version
             }
         }
     }

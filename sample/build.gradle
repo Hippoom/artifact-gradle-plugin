@@ -36,3 +36,4 @@ idea {
 }
 
 test.finalizedBy jacocoTestReport
+classes.finalizedBy writeArtifactBuildNumber

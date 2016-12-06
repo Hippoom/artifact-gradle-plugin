@@ -8,6 +8,7 @@ buildscript {
 apply plugin: 'idea'
 apply plugin: "jacoco"
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
 
 repositories {

@@ -13,6 +13,6 @@ class ArtifactPluginTest {
 
         project.pluginManager.apply 'io.github.hippoom.artifact'
 
-        assert project.tasks.hello != null
+        assert project.tasks.writeArtifactBuildNumber != null
     }
 }
