@@ -14,7 +14,7 @@ class ArtifactPlugin implements Plugin<Project> {
     }
 
     private String artifactBuildNumberOf(Project project) {
-        return semanticVersionOf(project)
+        return semanticVersionOf(project) + "-" + System.getenv("PIPELINE_BUILD_NUMBER")
     }
 
     private String semanticVersionOf(Project project) {
