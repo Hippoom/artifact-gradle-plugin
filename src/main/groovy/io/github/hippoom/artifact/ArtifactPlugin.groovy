@@ -16,15 +16,23 @@ class ArtifactPlugin implements Plugin<Project> {
     private String artifactBuildNumberOf(Project project) {
         def semanticVersionMaybe = semanticVersionOf(project)
         def pipelineBuildNumber = System.getenv("PIPELINE_BUILD_NUMBER")
+        def scmRevision = gitShortRevision()
 
         StringJoiner result = new StringJoiner("-")
         if (semanticVersionMaybe != 'unspecified') {
             result.add(semanticVersionMaybe)
         }
-        if (pipelineBuildNumber != null) {
+        if (pipelineBuildNumber != null && pipelineBuildNumber != "") {
             result.add(pipelineBuildNumber)
         }
+        if (scmRevision != null && scmRevision != "") {
+            result.add(scmRevision)
+        }
         result.toString()
+    }
+
+    private String gitShortRevision() {
+        return new GitRevisionFetcher().fetch()
     }
 
     private String semanticVersionOf(Project project) {

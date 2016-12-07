@@ -19,12 +19,15 @@ repositories {
 
 dependencies {
     compile gradleApi()
-    compile localGroovy()
+    compile 'org.codehaus.groovy:groovy-all:2.4.4'
 
-    testCompile('junit:junit:4.12') {
-        exclude group: 'org.hamcrest'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'cglib:cglib-nodep:3.2.4' // for spock to mock class
+    testCompile 'org.objenesis:objenesis:2.1' // for spock to mock class
+    testCompile('com.athaydes:spock-reports:1.2.13') {
+        exclude group: 'org.spockframework'
+        exclude module: 'groovy-all'
     }
-    testCompile 'org.hamcrest:hamcrest-library:1.3'
 }
 
 idea {
