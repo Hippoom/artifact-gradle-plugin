@@ -14,7 +14,17 @@ class ArtifactPlugin implements Plugin<Project> {
     }
 
     private String artifactBuildNumberOf(Project project) {
-        return semanticVersionOf(project) + "-" + System.getenv("PIPELINE_BUILD_NUMBER")
+        def semanticVersionMaybe = semanticVersionOf(project)
+        def pipelineBuildNumber = System.getenv("PIPELINE_BUILD_NUMBER")
+
+        StringJoiner result = new StringJoiner("-")
+        if (semanticVersionMaybe != 'unspecified') {
+            result.add(semanticVersionMaybe)
+        }
+        if (pipelineBuildNumber != null) {
+            result.add(pipelineBuildNumber)
+        }
+        result.toString()
     }
 
     private String semanticVersionOf(Project project) {
