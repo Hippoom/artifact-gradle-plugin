@@ -5,16 +5,21 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.gradle.plugin-publish" version "0.9.7"
+}
 apply plugin: 'idea'
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
+apply plugin: "com.gradle.plugin-publish"
 
-group = 'io.github.hippoom.artifact'
-version = '0.1.0-SNAPSHOT'
+group = 'com.github.hippoom'
+version = '0.1.0'
 
 repositories {
     mavenCentral()
     mavenLocal()
+
 }
 
 dependencies {
@@ -42,8 +47,18 @@ publishing {
             from components.java
         }
     }
+}
 
-    repositories {
-        mavenLocal()
+pluginBundle {
+    website = 'https://hippoom.github.io'
+    vcsUrl = 'https://github.com/hippoom/artifact-gradle-plugin'
+    description = 'Greetings from here!'
+    tags = ['ci']
+
+    plugins {
+        artifactPlugin {
+            id = 'io.github.hippoom.artifact'
+            displayName = 'Artifact sourcing plugin'
+        }
     }
 }
