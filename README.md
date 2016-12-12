@@ -26,9 +26,13 @@ From implementation perspective, the binary needs to be identified so that you c
 
 > semantic version represents a release plan, tons of binaries could be built to deliver this plan
 
-My personal faviroute is to combine semantic version, pipeline build number and git revision, the final identifier (will be written in a file) looks like this: `1.2.4-13.3-238sd09`. It tells me what is the git revision the CD server use to build the binary and which build pipeline run does it.
+My personal faviroute is to combine semantic version, pipeline build number and git revision, the final identifier looks like this: `1.2.4-13.3-238sd09`. It tells me what is the git revision the CD server use to build the binary and which build pipeline run does it.
 
 The implementation is quite simple, I used write a simple script to fetch current git revision with `git commands` and get pipeline build number by environment variables (provided by CD server). But I'm frustrated with copying and pasting the scripts throught projects, so an idea comes up to me, why not ask the build tool do it for me? 
+
+#### What I can do with the identifier
+
+The identifier will be written to a file, the file should be achived by your CD server so that downstream system can fetch the file and download the artifact with the identifier inside.
 
 
 ## Quick Start
