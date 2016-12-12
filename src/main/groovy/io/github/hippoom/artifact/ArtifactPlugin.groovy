@@ -6,41 +6,13 @@ import org.gradle.api.Project
 class ArtifactPlugin implements Plugin<Project> {
 
     void apply(Project project) {
+        def pluginExtension = new ArtifactPluginExtension(project)
         project.task('writeArtifactBuildNumber') {
             doLast {
-                write(project, artifactBuildNumberOf(project))
+                write(project, pluginExtension.artifactBuildNumber())
             }
         }
-    }
-
-    private String artifactBuildNumberOf(Project project) {
-        def semanticVersionMaybe = semanticVersionOf(project)
-        def pipelineBuildNumber = System.getenv("PIPELINE_BUILD_NUMBER")
-        def scmRevision = gitShortRevision()
-
-        StringJoiner result = new StringJoiner("-")
-        if (semanticVersionMaybe != 'unspecified') {
-            result.add(semanticVersionMaybe)
-        }
-        if (pipelineBuildNumber != null && pipelineBuildNumber != "") {
-            result.add(pipelineBuildNumber)
-        }
-        if (scmRevision != null && scmRevision != "") {
-            result.add(scmRevision)
-        }
-        result.toString()
-    }
-
-    private String gitShortRevision() {
-        return new GitRevisionFetcher().fetch()
-    }
-
-    private String semanticVersionOf(Project project) {
-        if (project.getRootProject() != null) {
-            return project.getRootProject().version
-        } else {
-            return project.version
-        }
+        project.extensions.add("artifactBuildNumber", { -> pluginExtension.artifactBuildNumber()})
     }
 
     private void write(Project project, String artifactBuildNumber) {

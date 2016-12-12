@@ -37,15 +37,11 @@ The identifier will be written to a file, the file should be achived by your CD 
 
 ## Quick Start
 
-A task named 'writeArtifactBuildNumber' will be added to the project once the plugin is applied.
+#### artifactBuildNumber
 
-The task does not depends on any other task for the time being so you can use the following command in you binary build task in CD server:
+A method named 'artifactBuildNumber' will be added to the project once the plugin is applied.
 
-```
-gradle clean build writeArtifactBuildNumber
-```
-
-You'll find a file named `build-number`under `build/artifacts/`directory. The content is in plain text follows this format:
+The method returns a unique artifact identifier with following format:
 
 ```
 <semantic version|$project.version>-<pipeline build number| $PIPELINE_BUILD_NUMBER>-<scm revision | git short revision>
@@ -55,6 +51,32 @@ Variants:
 
 * semantic version will be skipped if `project.version` is not specified
 * pipeline build number will be skipped if `$PIPELINE_BUILD_NUMBER` is not defined as environment variable
+
+A typical use case is to publish the artifacts to artifact repository
+
+    // exmaple of gradle maven-publish plugin
+    publishing {
+    	publications {
+        	mavenJava(MavenPublication) {
+            	groupId "your.group.id"
+                artifactId "you.artifact.id"
+    	        version artifactBuildNumber //method provided by plugin
+                from components.java
+    	    }
+    	}
+    }
+
+#### writeArtifactBuildNumber
+
+A task named 'writeArtifactBuildNumber' will be added to the project once the plugin is applied.
+
+The task does not depends on any other task for the time being so you can use the following command in you binary build task in CD server:
+
+```
+gradle clean build writeArtifactBuildNumber
+```
+
+The task writes artifact build number to`build/artifacts/build-number`.​
 
 ## Road Map
 
