@@ -14,7 +14,7 @@ apply plugin: 'maven-publish'
 apply plugin: "com.gradle.plugin-publish"
 
 group = 'com.github.hippoom'
-version = '0.2.1-SNAPSHOT'
+version = '0.2.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
